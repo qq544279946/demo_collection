@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100px;
+            width: 100px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <p>你好</p>
+    <script>
+        var boxDom = document.querySelector('.box');
+        var left, initX, initY;
+        var topY;
+        boxDom.onmousedown = function(e){
+            topY = boxDom.getBoundingClientRect().top + window.pageYOffset;
+            console.log( topY)
+            left = boxDom.getBoundingClientRect().left + window.pageXOffset;
+            initX = e.pageX;
+            initY = e.pageY;
+            boxDom.onmousemove = move;
+        }
+        boxDom.onmousemove = null;
+        function move(e){
+            var mouseX = e.pageX;
+            var mouseY = e.pageY;
+            var offsetX = mouseX - initX;
+            var offsetY = mouseY - initY;
+            boxDom.style.left = left + offsetX + 'px';
+            boxDom.style.top = topY + offsetY + 'px';
+            
+        }
+        boxDom.onmouseup = function(e){
+            boxDom.onmousemove = null; 
+        }
+    </script>
+</body>
+</html>

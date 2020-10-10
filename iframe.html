@@ -14,5 +14,15 @@
 </head>
 <body>
     <iframe src="http://www.baidu.com" frameborder="0"></iframe>
+
+    <script>
+        window.addEventListener('error',function(e){
+            e.preventDefault()
+        })
+
+        
+        throw new Error('hahah')
+        
+    </script>
 </body>
 </html>
