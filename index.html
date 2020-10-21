@@ -57,25 +57,79 @@
             <button v-if="isShow" key="one">ni</button>
             <button v-else key="two">hao</button>
         </transition>
-
+        <button @click="add">+1</button>
+        {{count}}
+        
     </div>
 
     
     <!-- 开发版本，包含有用的控制台警告 -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="unpkg.com/:package@:version/:file"></script>
+    <script src="./node_modules/vuex/dist/vuex.js"></script>
     <script>
-        
+        const store = new Vuex.Store({
+           
+            state: {
+                count: 1
+            },
+            getters: {
+                countG(state){
+                    return state.count *2;
+                }
+            },
+            actions: {
+                asyncIncrement(context){
+                    console.log(context, app.$store)
+                    
+                }
+            },
+            mutations: {
+                increment(state){
+                    state.count++;
+                }
+            },
+            modules: {
+                a: {
+                    state: {
+                        n : 10
+                    },
+                    getters: {
+                        nG(state){
+                            return state.n * 2;
+                        }
+                    },
+                    mutations: {
+                        nm(state){
+                            console.log(state)
+                        }
+                    }
+                }
+            }
+        })
        
         var app = new Vue({
             el: '#app',
-
+            store: store,
             data: {
                 
                 isShow: true,
             },
+            created() {
+                console.log(this.$store.getters)
+            },
             methods: {
-               
+               add(){
+                   console.log()
+                   this.$store.dispatch('asyncIncrement');
+               }
+            },
+            computed: {
+                // count(){
+                //     return this.$store.state.count
+                // },
+                ...Vuex.mapState(['count']),
+                ...Vuex.mapGetters(['doubleCount'])
+                
             },
 
         })

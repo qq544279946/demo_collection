@@ -1,36 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
-<div id="pdf">
- 
-</div>
- 
-<script>
-    var pdfForm = document.getElementById("pdf");
- 
- //说明：doPrint是一个数组，里面保存了需要打印的pdf的路径（doPrint修改成你需要打印的pdf文件的路基即可）
-  var doPrint = [];
- for(var i=0;i<doPrint.length;i++){
-             var isIframe = document.getElementById("printIframe"+i);//获取iframe
-             if(isIframe){//如果这个iframe已经存在，就删除掉
-                 pdfForm.removeChild(isIframe);
-             }
-             var iframe_ = document.createElement("iframe");//创建iframe元素
-             iframe_.style.display="none";
-             iframe_.id="printIframe"+i;
-             iframe_.src = doPrint[i];//pdf文件路径
-             pdfForm.appendChild(iframe_);
-            //兼容谷歌，不兼容ie8，效果可以自己试下（谷歌浏览器推荐使用这种，效果会比较好）
-             $("#printIframe"+[i])[0].contentWindow.print(); 
-            //兼容ie8和谷歌的实现打印方式
-            windows.open(doPrint[i]);
- 
-</script>
+
+    <iframe style="display:none" id="printIframe" src="http://127.0.0.1:5500/123.pdf"></iframe>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            doPrint();
+
+        });
+
+        function doPrint() {
+            $("#printIframe")[0].contentWindow.print();
+        }
+    </script>
 </body>
+
 </html>
