@@ -1,23 +1,115 @@
-function solve( a ) {
-    // write code here
-    
-    var maxIndex = -1;
-    for(let i = 1; i < a.length - 1; i++){
-        if(a[i] > a[i+1] && a[i] > a[i - 1]){
-            if(maxIndex = -1){
-                maxIndex = i;
-            }else if(a[maxIndex] < a[i]){
-                maxIndex = i;
-            }
-            
+var PDFJS = require('pdfjs-dist');
+var Base64 = require('js-base64');
+console.log(Base64)
+var pdfDataList = [`JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC9UeXBlL1hPYmplY3QvU3VidHlwZS9JbWFnZS9XaWR0
+aCA2MzIvSGVpZ2h0IDE1MS9MZW5ndGggMTYyOS9Db2xvclNwYWNlL0RldmljZVJHQi9EZWNvZGVQ
+YXJtczw8L0JpdHNQZXJDb21wb25lbnQgOC9QcmVkaWN0b3IgMTUvQ29sdW1ucyA2MzIvQ29sb3Jz
+IDM+Pi9CaXRzUGVyQ29tcG9uZW50IDgvRmlsdGVyL0ZsYXRlRGVjb2RlPj5zdHJlYW0KeNrt1cER
+gCAMBED6b1oLwHHCBfy4+TLKESM7rmM1ppqXXp7KtnjcJUtSOUiWvxKjEn5Xz7OOFVd3najZq1Go
+5hAuDUyWeWOSD3q1mr/zxbMOZ0P1+J7mEJ77hc/dAOfuzHjyl2Jn8xlqCFrQgha0oAUtaEELWtCC
+FrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0
+oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAF
+LWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1o
+QQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEEL
+WtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQ
+gha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIW
+tKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSg
+BS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUt
+aEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhB
+C1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta
+0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCC
+FrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0
+oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAF
+LWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1o
+QQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEEL
+WtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQ
+gha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIW
+tKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSg
+BS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUt
+aEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhB
+C1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta
+0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCC
+FrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0
+oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAF
+LWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1o
+QQta0IIWtKAFLWhBC1rQgha0oAUtaEELWtCCFrSgBS1oQQta0IIWtKAFLWhBC1rQgha0oAUtaEEL
+WtCCFrSgBS1oQQta0IIWtKAF7W+gvQEWAcwaCmVuZHN0cmVhbQplbmRvYmoKMiAwIG9iago8PC9U
+eXBlL0ZvbnQvU3VidHlwZS9UeXBlMS9CYXNlRm9udC9IZWx2ZXRpY2EvRW5jb2RpbmcvV2luQW5z
+aUVuY29kaW5nPj4KZW5kb2JqCjMgMCBvYmoKPDwvTW9kRGF0ZShEOjIwMjAxMDE2MTQyNDMxKzA4
+JzAwJykvQ3JlYXRpb25EYXRlKEQ6MjAyMDEwMTYwNjI0MzBaKS9Qcm9kdWNlcihpVGV4dK4gNS41
+LjYgqTIwMDAtMjAxNSBpVGV4dCBHcm91cCBOViBcKEFHUEwtdmVyc2lvblwpOyBtb2RpZmllZCB1
+c2luZyBpVGV4dK4gNS41LjEwIKkyMDAwLTIwMTUgaVRleHQgR3JvdXAgTlYgXChBR1BMLXZlcnNp
+b25cKSk+PgplbmRvYmoKNCAwIG9iago8PC9MZW5ndGggMTAvRmlsdGVyL0ZsYXRlRGVjb2RlPj5z
+dHJlYW0KeJwr5AIAAO4AfAplbmRzdHJlYW0KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDExMy9G
+aWx0ZXIvRmxhdGVEZWNvZGU+PnN0cmVhbQp4nFXLsQqDQBCE4X6fYkptkt01552tqGCjHNkiqQOC
+gojv3+RibGSqgf9DpJ12KFc39eA0xygZhcNnxf01M5oNkWqjdASisInkKAXBJQlbKXv2w2ildyFU
+XkXfMbflL4qLUGY8+DTd+Ktao0hfuncdEgplbmRzdHJlYW0KZW5kb2JqCjYgMCBvYmoKPDwvQ29u
+dGVudHNbNCAwIFIgNyAwIFIgNSAwIFJdL1R5cGUvUGFnZS9SZXNvdXJjZXM8PC9Qcm9jU2V0Wy9Q
+REYvVGV4dC9JbWFnZUIvSW1hZ2VDL0ltYWdlSV0vRm9udDw8L0YxIDggMCBSL0YyIDkgMCBSL1hp
+MSAyIDAgUj4+L1hPYmplY3Q8PC9YZjEgMTAgMCBSL1hpMCAxIDAgUj4+Pj4vUGFyZW50IDExIDAg
+Ui9NZWRpYUJveFswIDAgMjg4IDQzMl0+PgplbmRvYmoKNyAwIG9iago8PC9GaWx0ZXIvRmxhdGVE
+ZWNvZGUvTGVuZ3RoIDcxMT4+c3RyZWFtCnicnZVtU5tAEMff8yl2pjMdOpPiPXHH9R1qo7YxxoDW
+vqTJGWk1UcD69bsHeYAEE6YDYSa79//d7rJ7vDgvQD3OgeBFgQq8GUye4OjunsLpAq6da+fFOY4d
+LoFrCfHU+RqjjQLTBFggIYDMOKQEZDO0vzn31oso6+WtXkqDPV4mNSgOVLV5CS/9zN/jF6r0t0Zm
+/eh8T4+ZHvUpKIjv666qPBIEYxA/NQzcCwJrc8emeM3mEE6nmcnzL5/i37ZUS6B+B8iFaAK59D3J
+S2D0kD5DvNgiBZa0Wq+YjWC9+jmdz+DUPCdZ8WTmxQEhrYSMSjhPsizN4eSQhCz3WrwWDxAlc+hn
+yXyS5pNFD05C0IIEZA9CcMxPlohvKP6Lv6nJ4Hxh/hxQ+f+lEpUKbiKgHPshfCwSuE1zfI4XyfSA
+mldqTBPXHyfZryRLqjQ5ttEeMQFeFWplYMHa5G50K68WtoVY5T/qswrm3kSjCOJxePL9YngGH8Dc
+RrtaqTzsIMoCz1+py1ZzNVMCAnwCIb7A3QkKCP6ViqND7aIE87DKlOgNqhwDlxIFw6tROLiIryL4
+Ef7sQQ+icBiHcByO8Q5tVXpVWbTWwZJNNWbOA8BBF35j1hjOWrSaNoZd3zYcVOOYKlKvI9XKk9bK
+PFUG6Y6SbGIeITKPZlLAIJ09FG/GPuuvZ+8OcmsH7Qk8XuR6B+yd0QI7ZmbgI/SNyWGUpNPOeL+B
+ZzSwpy3z1/iheZthQ6aTvDNSNJGsQoo1stEolkVZ1Z32qsPKk7SePDYiktRyyMMh43KLRFvDUmob
+ZS2Ke3x5NMZtmN2AiNwJyZo2oPCsUzyU6R2QNW1Ag/Cuc2b4OdnKzKerQ/9KdM+sySlNG9Ao6J7Z
+FsiaNiB8bW1vf5eEHFnncOLhyYANW82/ezuMPl92RXFaRwn8hmF23F+iLpm/BP0D3I7PZQplbmRz
+dHJlYW0KZW5kb2JqCjggMCBvYmoKPDwvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQvQmFzZUZvbnQv
+SGVsdmV0aWNhL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZz4+CmVuZG9iago5IDAgb2JqCjw8L1N1
+YnR5cGUvVHlwZTEvVHlwZS9Gb250L0Jhc2VGb250L0hlbHZldGljYS1Cb2xkL0VuY29kaW5nL1dp
+bkFuc2lFbmNvZGluZz4+CmVuZG9iagoxMCAwIG9iago8PC9TdWJ0eXBlL0Zvcm0vRmlsdGVyL0Zs
+YXRlRGVjb2RlL1R5cGUvWE9iamVjdC9NYXRyaXhbMSAwIDAgMSAwIDBdL0Zvcm1UeXBlIDEvUmVz
+b3VyY2VzPDwvUHJvY1NldFsvUERGL1RleHQvSW1hZ2VCL0ltYWdlQy9JbWFnZUldPj4vQkJveFsw
+IDAgMTk1LjIgNTZdL0xlbmd0aCAyNTc+PnN0cmVhbQp4nI2UwXHFMAhE778KV+BhJYRQQUkB6f8Q
+x/aMradLboZhgV1Wts027bG12H6+PmX3I7Y979iPL9v+slecZ1z3cscqZ+IByM8OD0L9aD5VjAM9
+zdRZ8UBKnD1eFQM9apnDhpb1GvokXEyAZ5D4xfQBtALqLUC9JaiHsHbUfV48HE27YY/u0KJTz049
+k1zTpxk5n3QI+OHYYQS0GBwpK1hT1nBVWdIrMqJEuhKHazGQSl0yDRqo8KCqwNRl9mIjueFByIHx
+jhvL6V61umToYN1uetUsdlIsvOOa/nqgHdv0ZXYHx9tQr4rkb0HpVDOTygx0GZVqjou1/TP+/vwC
+nHPs2AplbmRzdHJlYW0KZW5kb2JqCjExIDAgb2JqCjw8L0tpZHNbNiAwIFJdL1R5cGUvUGFnZXMv
+Q291bnQgMT4+CmVuZG9iagoxMiAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMTEgMCBSPj4K
+ZW5kb2JqCnhyZWYKMCAxMwowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMTUgMDAwMDAgbiAK
+MDAwMDAwMTg2OSAwMDAwMCBuIAowMDAwMDAxOTU3IDAwMDAwIG4gCjAwMDAwMDIxODEgMDAwMDAg
+biAKMDAwMDAwMjI1NyAwMDAwMCBuIAowMDAwMDAyNDM3IDAwMDAwIG4gCjAwMDAwMDI2NTUgMDAw
+MDAgbiAKMDAwMDAwMzQzMyAwMDAwMCBuIAowMDAwMDAzNTIxIDAwMDAwIG4gCjAwMDAwMDM2MTQg
+MDAwMDAgbiAKMDAwMDAwNDA2OSAwMDAwMCBuIAowMDAwMDA0MTIxIDAwMDAwIG4gCnRyYWlsZXIK
+PDwvU2l6ZSAxMy9Sb290IDEyIDAgUi9JbmZvIDMgMCBSL0lEIFs8ZGNmMTZkOTk1NjQzZDdjMWM1
+ZmEzN2FhNjI5NWM1NDI+PDIwNzc0Yzk1ZmE4Y2Y0ZGUwNDEzZWEzMzZiOWI4YTE5Pl0+PgolaVRl
+eHQtNS41LjEwCnN0YXJ0eHJlZgo0MTY4CiUlRU9GCg==`]
+async function showPdf() {
+    let pdfList = document.querySelector('.pdfList') //通过querySelector选择DOM节点,使用document.getElementById()也一样
+    for (let value of pdfDataList) { //遍历后台传过来的pdfDataList
+        let base64 = value //获得bas464编码
+        let decodedBase64 = Base64.decode(base64); //使用浏览器自带的方法解码
+        let pdf = await PDFJS.getDocument({
+            data: decodedBase64
+        }) //返回一个pdf对象
+        let pages = pdf.numPages //声明一个pages变量等于当前pdf文件的页数
+        for (let i = 1; i <= pages; i++) { //循环页数
+            let canvas = document.createElement('canvas')
+            let page = await pdf.getPage(i) //调用getPage方法传入当前循环的页数,返回一个page对象
+            let scale = 1; //缩放倍数，1表示原始大小
+            let viewport = page.getViewport(scale);
+            let context = canvas.getContext('2d'); //创建绘制canvas的对象
+            canvas.height = viewport.height; //定义canvas高和宽
+            canvas.width = viewport.width;
+            let renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            await page.render(renderContext)
+            canvas.className = 'canvas' //给canvas节点定义一个class名,这里我取名为canvas
+            pdfList.appendChild(canvas) //插入到pdfList节点的最后
         }
+
     }
-    if(a[a.length -1] > a[maxIndex] && a[a.length -1] > a[a.length -2]){
-        maxIndex = a.length-1;
-    }
-     if(a[0] > a[maxIndex] && a[0] > a[1]){
-        maxIndex = 0;
-    }
-    return maxIndex;
+
 }
-console.log(solve([2,4,1,2,7,8,4]))
+
+showPdf()

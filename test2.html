@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width="0" height="0">
+        <embed id="LODOP_EM" type="application/x-print-lodop" width="0" height="0"></embed>
+    </object>
+    <div id="printarea" style="display: none;">bbbbb
+        <img src="fat.jpg" alt="">
+
+    </div>
+    <el-button onclick="print()">打印</el-button>
+
+    <canvas id="thepdfcanvas2" style="border:1px solid black;display:none;"></canvas>
+    <!-- 将pdf转为canvas元素的工具 -->
+    <script type="text/javascript" src="/pdfjs-2.5.207-dist/build/pdf.js"></script>
+    <script type="text/javascript" src="/pdfjs-2.5.207-dist/web/compatibility.js"></script>
+    <script>
+        PDFJS.workerSrc = '/pdfjs-2.5.207-dist/build/pdf.worker.js';
+    </script>
+
+
+    <script type="text/javascript" language="javascript" src="/LodopFuncs.js"></script>
+    
+    <script type="text/javascript">
+        var base64str = ``
+        window.onload = function () {
+            var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+
+            if (atob) {
+                var pdfData = atob(base64str);
+                /*
+                	/base64str: ajax获取到的pdf文件的Base64编码
+                	pdfData: atob生成的pdf文件数据。
+                	atob函数只在火狐浏览器中有效。
+                	如果从本地打开pdf文件，可以省略这一步
+                */
+            } else {
+                var pdfData = base64str;
+            }
+
+
+            //从pdf文件对象逐页获取page，并调用toImageAndPrint函数打印内容
+            PDFJS.getDocument({
+                data: pdfData
+            }).then(function getPdfHelloWorld(pdf) {
+                //此处适用pdf只有一个page情况
+                pdf.getPage(1).then(function getPageHelloWorld(page) {
+                    //scale调节生成的画布图片大小，与清晰度有关，需要调整。
+                    var scale = 1.5;
+                    var viewport = page.getViewport(scale);
+                    //将生成的page对象加载到canvas中
+                    var canvas = document.getElementById('thepdfcanvas2');
+                    var context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    var renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    //此处开始画画布
+                    page.render(renderContext).promise.then(function () {
+                        //回调函数，此处画布已加载完，调用后续的打印或预览函数
+                        // toImageAndPrint(); //直接打印
+                        toImageAndPreview() //预览打印
+                    });
+
+                });
+
+            });
+
+            //
+            //预览打印
+            function toImageAndPreview() {
+                //<canvas> 元素转换为.png图片的BASE64编码
+                var canvasEle = document.getElementById("thepdfcanvas2");
+                var dataUrl = canvasEle.toDataURL();
+
+                //打印初始化
+                LODOP.PRINT_INIT("");
+                //设置纸张类型，打印风格等
+                LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A5");
+                LODOP.SET_PRINT_STYLE("Stretch", 2);
+                //设置边距，传入待打印图片的base64编码
+                LODOP.ADD_PRINT_IMAGE("0mm", "0mm", "RightMargin:0mm", "BottomMargin:0mm", dataUrl);
+                //设置对后台打印状态进行捕获
+                LODOP.SET_PRINT_MODE("CATCH_PRINT_STATUS", true);
+                //预览
+                var prt = LODOP.PREVIEW();
+                //返回jobId
+                return prt;
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
