@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        hello {{name}}
+        年龄 {{age}}
+        <input type="text" v-focus v-model="message">
+        <div v-update="message">
+
+        </div>
+        <button @click="add">加一岁</button>
+    </div>
+    
+
+    <script src="/node_modules/vue/dist/vue.js"></script>
+    <script src="/node_modules/vuex/dist/vuex.js"></script>
+    <script>
+        const AGE_CHANGE = 'age_change';
+
+        var studentModule = {
+            namespaced: true,
+            state: {
+                name: 'luci',
+                age: 12
+            },
+            getters: {
+                message(state){
+                    return 'hello' + state.name;
+                }
+            },
+            actions: {
+                ageAdd({state, commit}){
+                    // console.log(1)
+                    commit(AGE_CHANGE, state.age + 1)
+                }
+            },
+            mutations: {
+                [AGE_CHANGE](state, age){
+                    state.age = age;
+                }
+            }
+        }
+        var store = new Vuex.Store({
+            actions: {
+                ageAdd(){
+                    console.log(111)
+                }
+            },
+            modules: {
+                student: studentModule
+            }
+        })
+        const namespace = Vuex.createNamespacedHelpers('student');
+        const myMixin = {
+            created(){
+                console.log('i am mixin')
+            }
+        }
+        Vue.directive('focus',{
+            inserted(el){
+                el.focus();
+            }
+        })
+        Vue.directive('update',
+            function(el, binding){
+                el.innerHTML = binding.value
+            }
+        )
+        new Vue({
+            el: '#app',
+            store: store,
+            mixins: [myMixin],
+            data: {
+                message: '123'
+            },
+            computed: {
+              ...Vuex.mapState('student', ['name','age'])  
+            },
+            methods: {
+                add(){
+                    
+                    this.$store.dispatch('student/ageAdd')
+                }
+            },
+        })
+    </script>
+</body>
+</html>
