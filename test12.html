@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0/axios.js"></script>
+    <script>
+        axios.interceptors.response.use(
+            res => {
+                console.log('inter_succ', res);
+                if(res.status !== 200){
+                    return new Promise(()=>{});
+                }else{
+                    return res
+                }
+            },
+            err => {
+                console.log('inter_err', err);
+                console.log('inter_err', err.message)
+                return new Promise(()=>{})
+            }
+        )
+        // axios({
+        //     url: '/test2.html',
+        //     method: 'GET'
+        // }).then(res=>{
+        //     console.log('succ1', res);
+        // }, err =>{
+        //     console.log('err1', err);
+        // })
+
+        async function test() {
+            var res = await axios({
+                url: '/test2.html',
+                method: 'GET'
+            })
+            console.log('await', res);
+        }
+        test();
+    </script>
+</body>
+
+</html>

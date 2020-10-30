@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <div id="app">
+        <h1>{{message}}</h1>
+        <p>
+            <!-- 使用 router-link 组件来导航. -->
+            <!-- 通过传入 `to` 属性指定链接. -->
+            <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+            <router-link to="/foo">Go to Foo</router-link>
+            <router-link to="/bar">Go to Bar</router-link>
+        </p>
+        <!-- 路由出口 -->
+        <!-- 路由匹配到的组件将渲染在这里 -->
+        <router-view></router-view>
+    </div>
+
+    <script>
+        const Foo = {
+            template: `<div>foo</div>`,
+            created() {
+                console.log(this.$router)
+            },
+        }
+        const Bar = {
+            template: `<div><my-component></my-component></div>`,
+        }
+
+        var ChildComponent = {
+            template: `<div>child-component</div>`,
+            created() {
+                console.log(this.$router);
+                console.log(this.$route);
+            },
+        }
+
+        const routes = [{
+                path: '/foo/test',
+                component: Bar,
+                children: [{
+                    path: '/foo/test/one',
+                    component: ChildComponent
+                }]
+            },
+            {
+
+                path: '/foo/:id/test1',
+                component: Foo
+            },
+            {
+
+                path: '/one',
+                component: Foo
+            }
+
+        ]
+        const router = new VueRouter({
+            // mode: 'history',
+            routes
+        })
+
+        Vue.component('my-component', {
+            template: `<div>my-component<router-view></router-view></div>`,
+            created() {
+                console.log(this.$router);
+                console.log(this.$route);
+            },
+        })
+
+        new Vue({
+            router,
+            data() {
+                return {
+                    message: 'hello my friend'
+                }
+            },
+        }).$mount('#app');
+    </script>
+</body>
+
+</html>

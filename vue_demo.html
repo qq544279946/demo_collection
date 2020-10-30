@@ -19,6 +19,7 @@
     
 
     <script src="/node_modules/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="/node_modules/vuex/dist/vuex.js"></script>
     <script>
         const AGE_CHANGE = 'age_change';
@@ -72,6 +73,8 @@
                 el.innerHTML = binding.value
             }
         )
+        
+        Vue.use(VueRouter)
         new Vue({
             el: '#app',
             store: store,
@@ -87,7 +90,7 @@
                     
                     this.$store.dispatch('student/ageAdd')
                 }
-            },
+            }
         })
     </script>
 </body>
