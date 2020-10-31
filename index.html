@@ -13,12 +13,13 @@
 
     <div id="app">
         <h1>{{message}}</h1>
+        <h1 v-html="test"></h1>
         <p>
             <!-- 使用 router-link 组件来导航. -->
             <!-- 通过传入 `to` 属性指定链接. -->
             <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
-            <router-link to="/foo">Go to Foo</router-link>
-            <router-link to="/bar">Go to Bar</router-link>
+            <router-link to="/one">Go to Foo</router-link>
+            <router-link to="/one">Go to Bar</router-link>
         </p>
         <!-- 路由出口 -->
         <!-- 路由匹配到的组件将渲染在这里 -->
@@ -44,33 +45,45 @@
             },
         }
 
-        const routes = [{
+        const routes = [
+            {
                 path: '/foo/test',
                 component: Bar,
                 children: [{
-                    path: '/foo/test/one',
-                    component: ChildComponent
+                    path: 'one',
+                    components: {
+                        default: ChildComponent,
+                        a: ChildComponent,
+                        b: Foo
+                    },
+                    alias: '/one'
                 }]
+            },
+            {
+                path: '/one',
+                component: Foo
             },
             {
 
                 path: '/foo/:id/test1',
                 component: Foo
             },
-            {
 
-                path: '/one',
-                component: Foo
-            }
 
         ]
+
         const router = new VueRouter({
             // mode: 'history',
             routes
         })
 
+        router.beforeEach((to, from, next)=>{
+            console.log(to, from)
+            next()
+        })
+
         Vue.component('my-component', {
-            template: `<div>my-component<router-view></router-view></div>`,
+            template: `<div>my-component<router-view></router-view><router-view name="a"></router-view><router-view name="b"></router-view></div>`,
             created() {
                 console.log(this.$router);
                 console.log(this.$route);
@@ -81,7 +94,8 @@
             router,
             data() {
                 return {
-                    message: 'hello my friend'
+                    message: 'hello my friend',
+                    test: `<em>123</em>`
                 }
             },
         }).$mount('#app');
